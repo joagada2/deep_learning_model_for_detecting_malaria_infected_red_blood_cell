@@ -21,10 +21,10 @@ def predict(image: Image.Image):
     image = np.asarray(image.resize((130, 130)))[..., :3]
     image = np.expand_dims(image, axis=0)
     #image = image / 127.5 - 1.0
+    prediction = model.predict(image)
+    score = float(prediction[0])
 
-    result =  ((model.predict(image) > 0.5) * 1).tolist()
-
-    return result
+    return f"This cell is {100 * (1 - score):.2f}% infected and {100 * score:.2f}% uninfected."
 
 
 def read_imagefile(file) -> Image.Image:
